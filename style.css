@@ -801,7 +801,7 @@ h2 {
 /* ========================================================================= */
 
 @media (max-width: 576px) {
-    /* --- 0. Global Reset & Bleed Fix (KEEP THIS) --- */
+    /* --- 0. Global Reset & Bleed Fix --- */
     body {
         overflow-x: hidden !important; 
     }
@@ -811,7 +811,7 @@ h2 {
         overflow: hidden !important; 
     }
     
-    /* Apply consistent side padding to all section wrappers (KEEP THIS) */
+    /* Apply consistent side padding (20px) to all section wrappers */
     .header-container,
     .hero-content,
     .hero-image-wrapper,
@@ -834,19 +834,19 @@ h2 {
     }
 
 
-    /* --- 1. Nav Bar Fix (Brings back Home, About Us, etc.) --- */
+    /* --- 1. Nav Bar Fix (Bringing back Home, About Us, etc.) --- */
     .site-header {
         padding: 10px 0 !important;
         border-bottom: 1px solid #eee !important;
     }
-    /* CRITICAL FIX: Make the navigation container visible and wide */
     .main-nav { 
+        /* CRITICAL: Must be block to allow content below the logo/button area */
         display: block !important; 
         width: 100% !important;
-        margin-top: 10px !important;
+        margin-top: 10px !important; 
     }
     .main-nav ul {
-        /* CRITICAL FIX: Force links to stack vertically and left-align */
+        /* CRITICAL: Force links to stack vertically and align left */
         display: flex !important;
         flex-direction: column !important;
         align-items: flex-start !important;
@@ -856,15 +856,15 @@ h2 {
     .main-nav li {
         display: block !important;
     }
-    /* Ensure the logo/button spacing remains correct */
     .header-container {
         justify-content: space-between !important; 
         align-items: center !important;
     }
     
     
-    /* --- 2. Features/Icons Fix (Fixes "Support" text spacing) --- */
+    /* --- 2. Features/Icons Fix (Spacing the "Support" text) --- */
     .feature-grid { 
+        grid-template-columns: 1fr !important; /* Force to single column */
         flex-direction: column !important; 
         gap: 20px !important;
     }
@@ -873,7 +873,7 @@ h2 {
         display: flex !important; 
         align-items: center !important;
         padding: 0 !important;
-        /* CRITICAL FIX: Use GAP to reliably space the icon and the text */
+        /* CRITICAL FIX: Use GAP for reliable spacing between icon and text */
         gap: 15px !important; 
     }
     .icon-wrapper {
@@ -900,6 +900,7 @@ h2 {
         box-sizing: border-box !important;
         display: block !important; /* Forces vertical flow */
         height: auto !important; /* Allows height to expand for all text */
+        justify-content: flex-start !important; /* Keep the previous successful rule */
     }
     /* Ensure text elements within the content area are forced to be visible */
     .card-content-area .card-caption,
@@ -913,7 +914,7 @@ h2 {
     .card-content-area .card-subtitle {
         margin-bottom: 10px !important; 
     }
-    
+
 
     /* --- General Layout Refinements (KEEP THIS) --- */
     .hero-container { flex-direction: column !important; }
