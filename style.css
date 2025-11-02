@@ -209,14 +209,14 @@ h2 {
 .hero-image-wrapper::after {
     content: '';
     position: absolute;
-    bottom: -50px; /* Adjusted for broader look */
-    right: -40px; /* Adjusted for broader look */
-    width: 250px; /* Adjusted for broader look */
-    height: 180px; /* Adjusted for broader look */
+    bottom: -50px; 
+    right: -40px; 
+    width: 250px; 
+    height: 180px; 
     z-index: 1; 
     
     background-image: radial-gradient(var(--primary-light-accent) 25%, transparent 25%); 
-    background-size: 15px 15px; /* Dotted density */
+    background-size: 15px 15px; 
     opacity: 1; 
 }
     
@@ -802,9 +802,10 @@ h2 {
 @media (max-width: 576px) {
     /* --- Global Overlap Prevention & Base Reset --- */
     body {
-        overflow-x: hidden; /* CRUCIAL: Prevents horizontal scrolling from overlaps */
+        overflow-x: hidden; /* Prevents horizontal scrolling */
     }
     .container {
+        /* Standard container padding is often removed to let individual sections control it */
         padding: 0 15px; 
         width: 100%; 
     }
@@ -815,7 +816,8 @@ h2 {
     .mid-section,
     .variety-of-foods-section,
     .popular-products-section,
-    .cta-banner {
+    .cta-banner,
+    .site-footer {
         padding-left: 0;
         padding-right: 0;
         width: 100%;
@@ -828,27 +830,34 @@ h2 {
     }
     .header-container {
         justify-content: space-between; 
-        padding: 15px 15px; 
+        padding: 15px 20px; /* Use standard 20px padding */
+    }
+    .header-container .btn-sm {
+        display: block; 
     }
 
-    /* --- 2. Hero Section Fixes (Centered Stack) --- */
+
+    /* --- 2. Hero Section Fixes (Corrected Image Placement and Stacking) --- */
     .hero-section {
         padding: 40px 0 20px 0; 
     }
     .hero-container {
         flex-direction: column; 
-        text-align: center;
+        text-align: left; /* Text remains left-aligned on mobile */
     }
     
     .hero-content {
-        max-width: 350px; 
-        margin: 0 auto; 
-        padding: 0 15px; 
         order: 1;
+        padding: 0 20px; /* Consistent side padding for text */
+        max-width: 100%;
+        margin: 0;
     }
-    
     .hero-content h1 {
         font-size: 2.5rem;
+    }
+    .hero-content p {
+        margin-left: 0; 
+        margin-right: 0;
     }
     .hero-logo-bar {
         display: none;
@@ -859,13 +868,18 @@ h2 {
         justify-content: center;
         order: 2;
         margin-top: 30px;
-        padding: 0 15px; 
+        padding: 0; /* Ensures full width stretch */
     }
-    .hero-image-wrapper,
+    .hero-image-wrapper {
+        transform: none !important; 
+        padding: 0 20px !important; /* Adds the required side spacing */
+        max-width: 100%; 
+    }
     .main-hero-img {
         transform: none !important; 
         padding: 0 !important; 
         max-width: 100%; 
+        box-shadow: none; /* Remove shadow for simpler mobile look */
     }
     /* Hide all overlays/patterns on mobile */
     .hero-overlay-rating,
@@ -876,51 +890,74 @@ h2 {
 
 
     /* --- 3. Features Section Fixes --- */
+    .features-section {
+        padding-top: 20px;
+    }
     .feature-grid { 
         flex-direction: column;
         gap: 20px;
-        margin-bottom: 40px;
-        padding: 30px 15px; 
+        padding: 30px 20px; /* Apply consistent side padding */
+        border-bottom: none;
     }
     .feature-item {
-        text-align: center;
+        text-align: left; 
+        padding: 0; /* Remove internal padding */
+        display: flex; /* Flex the content to place icon next to text */
+        align-items: center;
+    }
+    .icon-wrapper {
+        margin: 0 15px 0 0; /* Move icon margin to the right */
+        flex-shrink: 0; /* Prevent icon wrapper from shrinking */
     }
 
-    /* --- 4. Mid Section Layouts (Stacking) --- */
+
+    /* --- 4. Mid Section Layouts (Stacking & Alignment) --- */
     .mid-section {
         padding: 40px 0;
     }
     .mid-section-container,
     .mid-section-container.reverse-layout {
         flex-direction: column;
-        text-align: center;
+        text-align: left; 
         gap: 0; 
     }
     
     /* Content Blocks */
     .mid-content-area {
         order: 2; 
-        padding: 0 15px;
+        padding: 0 20px; 
     }
     .mid-image-area { 
         order: 1; 
         margin-bottom: 20px;
-        padding: 0 15px;
+        padding: 0 20px; 
+    }
+    .mid-section-container.reverse-layout .mid-content-area {
+        order: 1; 
+    }
+    .mid-section-container.reverse-layout .mid-image-area {
+        order: 2; 
     }
     
-    /* List and Stats Centering */
+    /* List and Stats Alignment */
     .stats-grid { 
-        justify-content: center;
+        justify-content: flex-start; 
         gap: 20px;
+        padding: 0 0; /* Stats should align with content padding */
+        margin: 20px 0 30px;
+    }
+    .stat-item {
+        text-align: left; 
     }
     .mid-content-area .btn {
-        margin: 20px auto 0 auto;
+        margin: 20px 0 0 0; 
     }
     .benefit-list {
         text-align: left;
-        margin: 0 auto 30px auto; 
-        max-width: 300px; 
+        margin: 20px 0 30px 0; 
+        max-width: none; 
     }
+
 
     /* --- 5. Variety of Foods Grid Fixes --- */
     .variety-of-foods-section {
@@ -929,9 +966,12 @@ h2 {
     .food-grid-transformed {
         grid-template-columns: 1fr;
         gap: 15px;
-        padding: 0 15px;
+        padding: 0 20px;
     }
-    .food-card {
+    /* Force all cards to stack as seen in the mobile image */
+    .food-card,
+    .food-grid-transformed > .food-card,
+    .food-grid-transformed > .food-card.reverse-content-order {
         flex-direction: column !important; 
     }
     .food-card .card-image-area,
@@ -939,6 +979,10 @@ h2 {
         width: 100% !important;
         height: auto;
     }
+    .card-image-area {
+        height: 150px; /* Reduced height for mobile */
+    }
+
 
     /* --- 6. Most Popular Products Fixes --- */
     .popular-products-section {
@@ -947,51 +991,63 @@ h2 {
     .product-grid { 
         grid-template-columns: 1fr;
         gap: 20px;
-        padding: 0 15px;
+        padding: 0 20px;
     }
     .product-card-wrapper {
-        text-align: left; 
+        text-align: center; 
     }
+    .product-img-wrapper {
+        margin: 30px auto 20px auto; 
+    }
+    .product-details {
+        padding: 0 20px 20px;
+        text-align: center; 
+    }
+    .product-prices {
+        justify-content: center; 
+    }
+    .btn-buy {
+        margin: 0 auto; 
+    }
+
 
     /* --- 7. CTA Banner Fixes --- */
     .cta-banner {
         padding: 60px 20px;
-        margin: 0 15px 40px 15px; 
+        margin: 0 20px 40px 20px;
     }
     .cta-banner h2 {
         font-size: 1.8rem;
     }
 
-    /* --- 8. Footer Fixes --- */
+
+    /* --- 8. Footer Fixes (Stacking and Alignment) --- */
     .site-footer {
         padding: 40px 0 10px;
     }
     .footer-grid { 
         grid-template-columns: 1fr; 
-        text-align: center;
+        text-align: left; 
         gap: 30px;
-        padding: 0 15px 30px 15px;
+        padding: 0 20px 30px 20px;
     }
     .social-icons { 
-        justify-content: center; 
+        justify-content: flex-start; 
     }
     .newsletter-col form {
         width: 100%;
-        max-width: 300px;
-        margin: 0 auto; 
+        max-width: none;
+        margin: 0;
+        flex-direction: column; /* Stack input and button */
+        border: none;
+        overflow: visible;
     }
-    .newsletter-col input,
-    .newsletter-col button {
-        width: 100%;
-        border-radius: var(--border-radius); 
+    .newsletter-col input {
+        border: 1px solid #ccc; 
+        border-radius: var(--border-radius);
     }
     .newsletter-col button {
         margin-top: 10px;
         border-radius: var(--border-radius);
-    }
-    .newsletter-col form {
-        flex-direction: column;
-        border: none;
-        overflow: visible;
     }
 }
