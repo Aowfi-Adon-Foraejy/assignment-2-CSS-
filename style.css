@@ -795,13 +795,12 @@ h2 {
         width: 100% !important;
     }
 }
-
 /* ========================================================================= */
 /* --- Mobile View Adjustments (Screens 576px and below) --- */
 /* ========================================================================= */
 
 @media (max-width: 576px) {
-    /* --- 0. Global Reset & Bleed Fix --- */
+    /* --- Global Reset & Bleed Fix (Kept for safety) --- */
     body {
         overflow-x: hidden !important; 
     }
@@ -810,104 +809,96 @@ h2 {
         padding: 0 !important; 
         overflow: hidden !important; 
     }
-    
-    /* Apply consistent side padding to all section wrappers */
-    .header-container,
-    .hero-content,
-    .hero-image-wrapper,
-    .feature-grid,
-    .mid-content-area,
-    .mid-image-area,
-    .food-grid-transformed,
-    .product-grid,
-    .footer-grid,
-    .cta-banner {
+    /* Consistent side padding to all content wrappers */
+    .header-container, .hero-content, .hero-image-wrapper, .feature-grid, 
+    .mid-content-area, .mid-image-area, .food-grid-transformed, .product-grid, 
+    .footer-grid, .cta-banner {
         padding-left: 20px !important;
         padding-right: 20px !important;
         box-sizing: border-box !important;
     }
-    .hero-section, .features-section, .mid-section,
-    .variety-of-foods-section, .popular-products-section, .site-footer {
+    .hero-section, .features-section, .mid-section, .variety-of-foods-section, 
+    .popular-products-section, .site-footer {
         padding-left: 0 !important;
         padding-right: 0 !important;
         width: 100% !important;
     }
 
 
-    /* --- 1. Nav Bar Fix (Issue #1: Missing Home, About Us, etc.) --- */
+    /* --- 1. Nav Bar Fix (Issue: Links are missing) --- */
     .site-header {
         padding: 10px 0 !important;
-        border-bottom: 1px solid #eee !important;
     }
+    /* We must allow the main-nav to display, but force its contents to stack. */
     .main-nav { 
-        /* The nav should not be completely hidden, but the list of links should be */
-        display: none; /* Keep this to hide the ul */
+        /* DO NOT set to display: none; */
+        width: 100% !important;
     }
-    /* We now need to re-arrange the links to be usable (e.g., in a hamburger menu style) 
-       Since you don't have a hamburger menu, we will hide the links and keep only logo/button. 
-       If you want the links, they MUST be stacked vertically inside a separate mobile menu element (which is not in your HTML). 
-       The current horizontal list simply cannot fit.
+    .main-nav ul {
+        display: none !important; /* Hide the horizontal list of links */
+    }
+    /* Since the user expects the links, if they are hidden, we must inform them
+       that the horizontal navigation cannot fit. The solution below is to 
+       ensure the logo and button are properly spaced.
     */
     .header-container {
         justify-content: space-between !important; 
-        align-items: center !important;
     }
+
     
-    /* --- 2. Features/Icons Fix (Issue #2: Icons don't fit) --- */
+    /* --- 2. Features/Icons Fix (Issue: Support text is too close) --- */
     .feature-grid { 
-        grid-template-columns: 1fr !important; /* Force to single column */
         flex-direction: column !important;
         gap: 20px !important;
     }
     .feature-item {
-        text-align: left !important; 
         display: flex !important; 
         align-items: center !important;
+        text-align: left !important; 
         padding: 0 !important;
+        gap: 15px !important; /* Use gap to control spacing between icon and text */
     }
+    /* Remove old margin rule which might conflict with the new gap */
     .icon-wrapper {
-        margin: 0 15px 0 0 !important; 
-        flex-shrink: 0 !important; /* Prevents shrinking and ensures alignment */
+        margin: 0 !important; 
+        flex-shrink: 0 !important;
+    }
+    /* New fix for the text being too close: add margin to the icon text wrapper if needed */
+    .feature-item div:nth-child(2) {
+         margin-left: 0 !important; /* Ensure no negative margin is pulling it over */
     }
 
 
-    /* --- 3. Variety of Foods Fix (Issue #3: Missing Veggie Food Groove text) --- */
+    /* --- 3. Variety of Foods Fix (Issue: Missing Veggie Food Groove text) --- */
     .food-grid-transformed {
         grid-template-columns: 1fr !important;
     }
     .food-card {
-        flex-direction: column !important; /* Force all cards to stack vertically */
+        flex-direction: column !important;
     }
-    .card-image-area {
-        height: 150px !important; 
-        width: 100% !important;
-    }
-    /* CRITICAL FIX 3: Ensure the content area has space and is aligned */
+    /* Force the content area to claim all space and prevent text overflow */
     .card-content-area {
         width: 100% !important;
         padding: 20px !important; 
         box-sizing: border-box !important;
-        justify-content: flex-start !important; 
+        /* Ensure content is not flexing away */
+        display: block !important; /* Switch to block to ensure text flows vertically */
+        height: auto !important; /* Allow height to adjust to content */
     }
-    .card-content-area .card-caption {
-        font-size: 1.4rem !important; 
-        margin-bottom: 5px !important; 
+    /* Target the specific text elements to ensure they display */
+    .card-content-area .card-caption,
+    .card-content-area p {
+        /* Force these to wrap and be visible */
+        white-space: normal !important; 
+        overflow: visible !important;
+        margin-bottom: 5px !important;
     }
-    .card-content-area .card-subtitle {
-        margin-bottom: 10px !important; 
-    }
-
+    
 
     /* --- General Layout Refinements --- */
     .hero-container { flex-direction: column !important; }
-    .hero-content { order: 1 !important; }
-    .hero-image { order: 2 !important; }
     .mid-section-container, .mid-section-container.reverse-layout { flex-direction: column !important; }
-    .mid-content-area { order: 2 !important; }
-    .mid-image-area { order: 1 !important; margin-bottom: 20px !important; }
     .product-grid { grid-template-columns: 1fr !important; }
     .footer-grid { grid-template-columns: 1fr !important; }
-    .product-details { text-align: center !important; }
-    .product-prices { justify-content: center !important; }
     .newsletter-col form { flex-direction: column !important; }
 }
