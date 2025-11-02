@@ -27,6 +27,7 @@ body {
     max-width: var(--max-width);
     margin: 0 auto;
     padding: 0 20px;
+    overflow: hidden;
 }
 
 h1 {
@@ -800,49 +801,62 @@ h2 {
 /* ========================================================================= */
 
 @media (max-width: 576px) {
-    /* --- Global Overlap Prevention & Base Reset --- */
+    /* ❌ CRITICAL FIX: Global Bleed and Body/Container Reset */
     body {
-        overflow-x: hidden !important; /* CRITICAL: Must prevent horizontal scroll */
+        overflow-x: hidden !important; 
     }
-    /* We are removing container padding entirely so individual sections control spacing */
     .container {
+        /* On mobile, remove standard desktop padding/max-width */
+        max-width: 100% !important; 
         padding: 0 !important; 
-        width: 100% !important; 
+        overflow: hidden !important; 
+    }
+    
+    /* ➡️ Consistent Mobile Padding Class: Used for all primary content wrappers */
+    .mobile-content-padding {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
     }
 
-    /* Force all major sections to be truly flexible and full width with controlled vertical padding */
+    /* Apply content padding to all relevant elements to fix alignment */
+    .header-container,
+    .hero-content,
+    .hero-image-wrapper,
+    .feature-grid,
+    .mid-content-area,
+    .mid-image-area,
+    .food-grid-transformed,
+    .product-grid,
+    .footer-grid {
+        /* Apply the new padding class via CSS (if not in HTML) or ensure the HTML has the class */
+        /* For CSS enforcement: */
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+        box-sizing: border-box !important;
+    }
+    
+    /* Remove padding from sections themselves */
     .hero-section,
     .features-section,
     .mid-section,
     .variety-of-foods-section,
     .popular-products-section,
-    .cta-banner,
     .site-footer {
         padding-left: 0 !important;
         padding-right: 0 !important;
         width: 100% !important;
     }
 
-    /* --- Consistent Content Wrapper (for Spacing) --- */
-    /* Use a reusable class if your HTML supports it, otherwise apply padding directly */
-    .hero-content, 
-    .mid-content-area,
-    .mid-image-area,
-    .feature-grid,
-    .food-grid-transformed,
-    .product-grid,
-    .footer-grid {
-        padding-left: 20px !important;
-        padding-right: 20px !important;
+
+    /* --- 1. Nav Bar Fix (Issue #2: Nav bar does not fit) --- */
+    .site-header {
+        padding: 0 !important;
     }
-    
-    /* --- 1. Header & Navigation Fixes --- */
-    .header-nav {
-        display: none !important;
+    .main-nav { 
+        display: none !important; /* Hides the menu links that break the layout */
     }
     .header-container {
         justify-content: space-between !important; 
-        padding: 15px 20px !important; 
     }
     .header-container .btn-sm {
         display: block !important; 
@@ -850,9 +864,6 @@ h2 {
 
 
     /* --- 2. Hero Section Fixes --- */
-    .hero-section {
-        padding: 40px 0 20px 0 !important; 
-    }
     .hero-container {
         flex-direction: column !important; 
         text-align: left !important;
@@ -863,106 +874,68 @@ h2 {
         margin: 0 !important;
     }
     .hero-image {
-        justify-content: center !important;
         order: 2 !important;
-        margin-top: 30px !important;
-        padding: 0 !important; 
+        padding: 0 !important; /* Ensure parent flex item has no padding */
     }
     .hero-image-wrapper {
         transform: none !important; 
-        padding: 0 20px !important; 
-        max-width: 100% !important; 
     }
     .main-hero-img {
         transform: none !important; 
         box-shadow: none !important; 
     }
-    /* Hide overlays */
-    .hero-overlay-rating,
-    .hero-overlay-product,
-    .hero-image-wrapper::after {
+    .hero-logo-bar {
         display: none !important;
     }
-
-
-    /* --- 3. Features Section Fixes --- */
-    .features-section {
-        padding-top: 20px !important;
+    .hero-overlay-rating, .hero-overlay-product, .hero-image-wrapper::after {
+        display: none !important;
     }
-    .feature-grid { 
-        flex-direction: column !important;
-        padding-top: 30px !important;
-        padding-bottom: 30px !important;
-    }
+    
+
+    /* --- 3. Mid Sections & Features --- */
     .feature-item {
-        text-align: left !important; 
+        padding: 0 !important;
         display: flex !important; 
         align-items: center !important;
-    }
-    .icon-wrapper {
-        margin: 0 15px 0 0 !important; 
-    }
-
-
-    /* --- 4. Mid Section Layouts (Stacking & Alignment) --- */
-    .mid-section {
-        padding: 40px 0 !important;
     }
     .mid-section-container,
     .mid-section-container.reverse-layout {
         flex-direction: column !important;
-        text-align: left !important; 
     }
-    /* Content and Image areas must control their own padding */
-    .mid-content-area {
-        order: 2 !important; 
-    }
-    .mid-image-area { 
-        order: 1 !important; 
-        margin-bottom: 20px !important;
-    }
+    .mid-content-area { order: 2 !important; }
+    .mid-image-area { order: 1 !important; margin-bottom: 20px !important; }
     .stats-grid { 
         justify-content: flex-start !important; 
-        padding: 0 !important; /* Padding is handled by .mid-content-area */
+        padding: 0 !important; 
         margin: 20px 0 30px 0 !important;
     }
-    .mid-content-area .btn {
-        margin: 20px 0 0 0 !important; 
-    }
 
 
-    /* --- 5. Variety of Foods Grid Fixes --- */
-    .variety-of-foods-section {
-        padding: 40px 0 !important;
-    }
+    /* --- 4. Variety of Foods Fix (Issue #3: Missing Text) --- */
     .food-grid-transformed {
         grid-template-columns: 1fr !important;
         gap: 15px !important;
     }
-    .food-card,
-    .food-grid-transformed > .food-card,
-    .food-grid-transformed > .food-card.reverse-content-order {
-        flex-direction: column !important; 
+    .food-card {
+        flex-direction: column !important;
     }
     .card-image-area {
         height: 150px !important; 
         width: 100% !important;
     }
+    /* 💥 CRITICAL FIX: Ensure text block has enough vertical space */
     .card-content-area {
         width: 100% !important;
+        padding: 20px !important; 
+        box-sizing: border-box !important;
+        /* Ensure content is not flexing away */
+        justify-content: flex-start !important; 
     }
-    
 
-    /* --- 6. Most Popular Products Fixes --- */
-    .popular-products-section {
-        padding: 0 0 40px !important;
-    }
+
+    /* --- 5. Products and Footer --- */
     .product-grid { 
         grid-template-columns: 1fr !important;
-        gap: 20px !important;
-    }
-    .product-card-wrapper {
-        text-align: center !important; 
     }
     .product-details {
         text-align: center !important; 
@@ -970,34 +943,11 @@ h2 {
     .product-prices {
         justify-content: center !important; 
     }
-    .btn-buy {
-        margin: 0 auto !important; 
-    }
-
-
-    /* --- 7. CTA Banner Fixes --- */
-    .cta-banner {
-        padding: 60px 20px !important;
-        margin: 0 20px 40px 20px !important;
-    }
-
-
-    /* --- 8. Footer Fixes (Stacking and Alignment) --- */
-    .site-footer {
-        padding: 40px 0 10px !important;
-    }
     .footer-grid { 
         grid-template-columns: 1fr !important; 
         text-align: left !important; 
-        gap: 30px !important;
-        padding-bottom: 30px !important;
     }
     .social-icons { 
         justify-content: flex-start !important; 
-    }
-    .newsletter-col form {
-        width: 100% !important;
-        flex-direction: column !important; 
-        border: none !important;
     }
 }
