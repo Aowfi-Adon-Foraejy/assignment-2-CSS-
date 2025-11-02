@@ -801,24 +801,17 @@ h2 {
 /* ========================================================================= */
 
 @media (max-width: 576px) {
-    /* ❌ CRITICAL FIX: Global Bleed and Body/Container Reset */
+    /* --- 0. Global Reset & Bleed Fix --- */
     body {
         overflow-x: hidden !important; 
     }
     .container {
-        /* On mobile, remove standard desktop padding/max-width */
         max-width: 100% !important; 
         padding: 0 !important; 
         overflow: hidden !important; 
     }
     
-    /* ➡️ Consistent Mobile Padding Class: Used for all primary content wrappers */
-    .mobile-content-padding {
-        padding-left: 20px !important;
-        padding-right: 20px !important;
-    }
-
-    /* Apply content padding to all relevant elements to fix alignment */
+    /* Apply consistent side padding to all section wrappers */
     .header-container,
     .hero-content,
     .hero-image-wrapper,
@@ -827,127 +820,94 @@ h2 {
     .mid-image-area,
     .food-grid-transformed,
     .product-grid,
-    .footer-grid {
-        /* Apply the new padding class via CSS (if not in HTML) or ensure the HTML has the class */
-        /* For CSS enforcement: */
+    .footer-grid,
+    .cta-banner {
         padding-left: 20px !important;
         padding-right: 20px !important;
         box-sizing: border-box !important;
     }
-    
-    /* Remove padding from sections themselves */
-    .hero-section,
-    .features-section,
-    .mid-section,
-    .variety-of-foods-section,
-    .popular-products-section,
-    .site-footer {
+    .hero-section, .features-section, .mid-section,
+    .variety-of-foods-section, .popular-products-section, .site-footer {
         padding-left: 0 !important;
         padding-right: 0 !important;
         width: 100% !important;
     }
 
 
-    /* --- 1. Nav Bar Fix (Issue #2: Nav bar does not fit) --- */
+    /* --- 1. Nav Bar Fix (Issue #1: Missing Home, About Us, etc.) --- */
     .site-header {
-        padding: 0 !important;
+        padding: 10px 0 !important;
+        border-bottom: 1px solid #eee !important;
     }
     .main-nav { 
-        display: none !important; /* Hides the menu links that break the layout */
+        /* The nav should not be completely hidden, but the list of links should be */
+        display: none; /* Keep this to hide the ul */
     }
+    /* We now need to re-arrange the links to be usable (e.g., in a hamburger menu style) 
+       Since you don't have a hamburger menu, we will hide the links and keep only logo/button. 
+       If you want the links, they MUST be stacked vertically inside a separate mobile menu element (which is not in your HTML). 
+       The current horizontal list simply cannot fit.
+    */
     .header-container {
         justify-content: space-between !important; 
-    }
-    .header-container .btn-sm {
-        display: block !important; 
-    }
-
-
-    /* --- 2. Hero Section Fixes --- */
-    .hero-container {
-        flex-direction: column !important; 
-        text-align: left !important;
-    }
-    .hero-content {
-        order: 1 !important;
-        max-width: 100% !important;
-        margin: 0 !important;
-    }
-    .hero-image {
-        order: 2 !important;
-        padding: 0 !important; /* Ensure parent flex item has no padding */
-    }
-    .hero-image-wrapper {
-        transform: none !important; 
-    }
-    .main-hero-img {
-        transform: none !important; 
-        box-shadow: none !important; 
-    }
-    .hero-logo-bar {
-        display: none !important;
-    }
-    .hero-overlay-rating, .hero-overlay-product, .hero-image-wrapper::after {
-        display: none !important;
-    }
-    
-
-    /* --- 3. Mid Sections & Features --- */
-    .feature-item {
-        padding: 0 !important;
-        display: flex !important; 
         align-items: center !important;
     }
-    .mid-section-container,
-    .mid-section-container.reverse-layout {
+    
+    /* --- 2. Features/Icons Fix (Issue #2: Icons don't fit) --- */
+    .feature-grid { 
+        grid-template-columns: 1fr !important; /* Force to single column */
         flex-direction: column !important;
+        gap: 20px !important;
     }
-    .mid-content-area { order: 2 !important; }
-    .mid-image-area { order: 1 !important; margin-bottom: 20px !important; }
-    .stats-grid { 
-        justify-content: flex-start !important; 
-        padding: 0 !important; 
-        margin: 20px 0 30px 0 !important;
+    .feature-item {
+        text-align: left !important; 
+        display: flex !important; 
+        align-items: center !important;
+        padding: 0 !important;
+    }
+    .icon-wrapper {
+        margin: 0 15px 0 0 !important; 
+        flex-shrink: 0 !important; /* Prevents shrinking and ensures alignment */
     }
 
 
-    /* --- 4. Variety of Foods Fix (Issue #3: Missing Text) --- */
+    /* --- 3. Variety of Foods Fix (Issue #3: Missing Veggie Food Groove text) --- */
     .food-grid-transformed {
         grid-template-columns: 1fr !important;
-        gap: 15px !important;
     }
     .food-card {
-        flex-direction: column !important;
+        flex-direction: column !important; /* Force all cards to stack vertically */
     }
     .card-image-area {
         height: 150px !important; 
         width: 100% !important;
     }
-    /* 💥 CRITICAL FIX: Ensure text block has enough vertical space */
+    /* CRITICAL FIX 3: Ensure the content area has space and is aligned */
     .card-content-area {
         width: 100% !important;
         padding: 20px !important; 
         box-sizing: border-box !important;
-        /* Ensure content is not flexing away */
         justify-content: flex-start !important; 
+    }
+    .card-content-area .card-caption {
+        font-size: 1.4rem !important; 
+        margin-bottom: 5px !important; 
+    }
+    .card-content-area .card-subtitle {
+        margin-bottom: 10px !important; 
     }
 
 
-    /* --- 5. Products and Footer --- */
-    .product-grid { 
-        grid-template-columns: 1fr !important;
-    }
-    .product-details {
-        text-align: center !important; 
-    }
-    .product-prices {
-        justify-content: center !important; 
-    }
-    .footer-grid { 
-        grid-template-columns: 1fr !important; 
-        text-align: left !important; 
-    }
-    .social-icons { 
-        justify-content: flex-start !important; 
-    }
+    /* --- General Layout Refinements --- */
+    .hero-container { flex-direction: column !important; }
+    .hero-content { order: 1 !important; }
+    .hero-image { order: 2 !important; }
+    .mid-section-container, .mid-section-container.reverse-layout { flex-direction: column !important; }
+    .mid-content-area { order: 2 !important; }
+    .mid-image-area { order: 1 !important; margin-bottom: 20px !important; }
+    .product-grid { grid-template-columns: 1fr !important; }
+    .footer-grid { grid-template-columns: 1fr !important; }
+    .product-details { text-align: center !important; }
+    .product-prices { justify-content: center !important; }
+    .newsletter-col form { flex-direction: column !important; }
 }
